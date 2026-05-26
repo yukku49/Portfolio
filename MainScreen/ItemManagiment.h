@@ -50,5 +50,11 @@ public:
 	// Getter for item enum max (JP: 列挙の最大値取得)
 	Item_number Get_Item_number()const{ return ITEM_MAX; };
 
+	//Getter for item data array (JP:アイテムデータ配列)
+      const ItemData* Get_Items(int i) const { return &m_items[i]; };
+
+	//Getter for Item image handle(JP:アイテム画像ハンドルの取得)
+	int Get_ItemHandle(Item_number type)const { return Item_Handle[type]; };
+
 };
 

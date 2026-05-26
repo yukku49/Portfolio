@@ -2,6 +2,8 @@
 #include "BackScreenManagiment.h"
 #include "EnemyManagiment.h"
 #include "BllentManagiment.h"
+#include "PlayerManagiment.h"
+#include "ItemManagiment.h"
 #include "DxLib.h"
 
 // Tile drawing unit（タイル描画単位）
@@ -93,3 +95,19 @@ void DrawManager::Enemy_Draw(const Enemy_Managiment& enemy, const BackScreen& st
 
 	DrawExtendGraph(x1, y1, x2, y2, enemy.Get_EnemyHandle(), TRUE);
 }
+/*
+void DrawManager::Item_Draw(const Item_Managiment& item, const BackScreen& stage) const
+{
+	for (int i = 0; i < item.Get_Item_number(); i++)
+	{
+		const ItemData* it = item.Get_Items(i);
+		if (!it->isActive) continue;
+		int x1 = static_cast<int>(it->x * TILE_SIZE);
+		int y1 = static_cast<int>(it->y * TILE_SIZE);
+		int x2 = x1 + TILE_SIZE;
+		int y2 = y1 + TILE_SIZE;
+		DrawExtendGraph(x1, y1, x2, y2, item.Get_ItemHandle(it->type), TRUE);
+	}
+}
+*/
+

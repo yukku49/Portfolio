@@ -13,12 +13,14 @@ struct Enemy_date
 {
 	float enemy_X = 0.0f; // 敵の X（ピクセル単位）
 	float enemy_Y = 0.0f; // 敵の Y（ピクセル単位）
-	float vx = 0.0f;      // X velocity (px/frame or px/sec depending on Update)
+	float vx = 0.0f;      // X velocity (px per update)
 	float vy = 0.0f;      // Y velocity
 	int fullness_gauge = 0;
 	bool isActive = false;
 	int Enemy_Eye_handlbe[enemy_Eye::Enemy_Max];
 };
+
+class BackScreen; // Forward declaration for collision check
 
 class Enemy_Managiment
 {
@@ -34,8 +36,11 @@ public:
 	// Getter for enemy state
 	const Enemy_date& Get_enemyPoint() const { return a; }
 
-	// Update enemy movement
+	// Update enemy movement (既存：フレーム単位で単純移動)
 	void Enemy_Update();
+
+	// 新規：当たり判定ありの更新（BackScreen を渡す）
+	void Enemy_Update(const BackScreen& stage);
 
 	// DrawManager 用 getter
 	float Get_enemyX() const { return a.enemy_X; }

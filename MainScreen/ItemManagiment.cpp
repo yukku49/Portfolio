@@ -50,6 +50,23 @@ void Item_Managiment::Spawn(const BackScreen& stage, Item_number type)
 	}
 }
 
+void Item_Managiment::Updata()
+{
+	for (int i = 0; i < MAX_SPAWN; i++)
+	{
+		if (m_items[i].isActive)
+		{
+			m_items[i].aliveTimer--;
+			if (m_items[i].aliveTimer <= 0)
+			{
+				m_items[i].isActive = false;
+			}
+		}
+	}
+}
+
+
+
 Item_number Item_Managiment::CheckPickUp(Player_Managiment& player)
 {
 	for (int i = 0; i < MAX_SPAWN; i++)
