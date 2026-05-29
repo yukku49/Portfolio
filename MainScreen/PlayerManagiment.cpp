@@ -76,19 +76,26 @@ void Player_Managiment::Update(const BackScreen& stage, Bllent_Managiment& bllen
 	float newY = Player_MovePointY + vy * dt;
 
 	// プレイヤー矩形（top-left = newX, newY）。表示サイズを当たり判定サイズとして使用
-	int w = m_displaySize;
-	int h = m_displaySize;
+	//int w = m_displaySize;
+	//int h = m_displaySize;
 
 	auto collidesAt = [&](float wx, float wy) -> bool {
 		return stage.CheckCollision(wx, wy);
 	};
 
 	// 四隅チェック（ワールド座標）
+	const int HIT_SIZE = 16; // 描画(28px)より小さく
+	int w = HIT_SIZE;
+	int h = HIT_SIZE;
+	float cx = Player_MovePointX + (m_displaySize - HIT_SIZE) / 2.0f;
+	float cy = Player_MovePointY + (m_displaySize - HIT_SIZE) / 2.0f;
 	bool collision = false;
 	if (collidesAt(newX, newY)) collision = true;
 	if (collidesAt(newX + w - 1, newY)) collision = true;
 	if (collidesAt(newX, newY + h - 1)) collision = true;
 	if (collidesAt(newX + w - 1, newY + h - 1)) collision = true;
+	
+	
 
 	if (!collision)
 	{

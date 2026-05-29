@@ -37,35 +37,52 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     enemy.Enemy_Initialisation(38 * TILE_SIZE, 21 * TILE_SIZE);
     bllet.Load();
     stage.Initialize();
-    //item.Spawn(stage, static_cast<Item_number>(GetRand(item.Get_Item_number() - 1)));
+    item.Load();
+    for (int i = 0; i < (int)ITEM_MAX; i++)
+    {
+        item.Spawn(stage, static_cast<Item_number>(i));
+    }
     // Start main loop (JP: メインループ)
     while (1)
     {
-        
+
 
         if (ProcessMessage() != 0) break;
         ClearDrawScreen();
 
         // 更新
         player.Update(stage, bllet);
-        bllet.Update(stage, player,enemy);
+        bllet.Update(stage, player, enemy);
         // 当たり判定を行う更新を呼ぶ（BackScreen を渡す）
         enemy.Enemy_Update(stage);
-		
-        item.Updata();
 
+        item.Updata();
+        Item_number picked = item.CheckPickUp(player);
+        if (picked != ITEM_MAX)
+        {
+            player.Player_BringItem(item);
+        }
+        static int spawnTimer = 0;
+        spawnTimer++;
+        if (spawnTimer >= 120)
+        {
+            spawnTimer = 0;
+            item.Spawn(stage, static_cast<Item_number>(GetRand(ITEM_MAX - 1)));
+        }
         // 描画
         draw.Map_Draw(stage);
         draw.Player_Draw(stage, player);
         draw.Enemy_Draw(enemy, stage);
         draw.Bullets_Draw(bllet);
         draw.Item_Draw(item, stage);
-
+    
+       
         // screen flip
         ScreenFlip();
     }
 
     // Finalize DxLib (JP: )
+
     DxLib_End();
 
     // End application (JP: ??????????)

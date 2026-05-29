@@ -13,16 +13,17 @@ void Item_Managiment::ItemManagiment()
 
 void Item_Managiment::Load()
 {
-	Item_Handle[TOMATO] = LoadGraph("Pizza_Image/TOMATO.png");
-	Item_Handle[BASIL] = LoadGraph("Pizza_Image/Basil.png");
-	Item_Handle[CHEESE] = LoadGraph("Pizza_Image/cheese.png");
-	Item_Handle[GORGONZOLA] = LoadGraph("Pizza_Image/gorgonzola.png");
-	Item_Handle[PIZZADOUGH] = LoadGraph("Pizza_Image/pizza_Dough.png");
-
+	Item_Handle[TOMATO] = LoadGraph("../Pizza_Image/TOMATO.png");
+	Item_Handle[BASIL] = LoadGraph("../Pizza_Image/Basil.png");
+	Item_Handle[CHEESE] = LoadGraph("../Pizza_Image/cheese.png");
+	Item_Handle[GORGONZOLA] = LoadGraph("../Pizza_Image/gorgonzola.png");
+	Item_Handle[PIZZADOUGH] = LoadGraph("../Pizza_Image/pizza_Dough.png");
+	
 }
 
 void Item_Managiment::Spawn(const BackScreen& stage, Item_number type)
 {
+	
 	for (int i = 0; i < MAX_SPAWN; i++)
 	{
 		if (!m_items[i].isActive)
@@ -48,6 +49,7 @@ void Item_Managiment::Spawn(const BackScreen& stage, Item_number type)
 			break;
 		}
 	}
+
 }
 
 void Item_Managiment::Updata()
@@ -75,7 +77,7 @@ Item_number Item_Managiment::CheckPickUp(Player_Managiment& player)
 		if (!m_items[i].isActive)continue;
 
 		//ÀW`FbN
-		if (m_items[i].x == player.GetX() && m_items[i].y == player.GetY())
+		if (m_items[i].x-player.GetX()<=1 && m_items[i].y -player.GetY()<=1)
 		{
 			//ACeðEÁ½©çñ\¦
 			m_items[i].isActive = false;
