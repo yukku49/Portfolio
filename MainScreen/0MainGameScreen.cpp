@@ -48,20 +48,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     // Start main loop (JP: メインループ)
     while (1)
     {
-        //スタート画面
-        
-        if (start.Get_Start_Flog())
-        {
-            draw.Start_Draw(start);
-            start.SelectGames();
-            start.MoveCursor();
-            continue;
-
-        }
-        
-
+    
         if (ProcessMessage() != 0) break;
         ClearDrawScreen();
+
+        if (start.Get_Start_Flog())
+        {
+            //draw.Start_Draw(start);
+            //start.SelectGames();
+            start.MoveCursor();
+
+        }
 
         // 更新
         player.Update(stage, bllet);
