@@ -101,10 +101,7 @@ void DrawManager::Enemy_Draw(const Enemy_Managiment& enemy, const BackScreen& st
 void DrawManager::Start_Draw(const StartScreen& start) const
 {
 	//枠を描画
-	DrawBox(1, 1, 1280, 736, GetColor(255, 255, 255), true);
-
-	
-
+	DrawBox(0, 0, TILE_SIZE-1, TILE_SIZE-1, GetColor(255, 255, 255), false);
 }
 
 void DrawManager::Item_Draw(const Item_Managiment& item, const BackScreen& stage) const

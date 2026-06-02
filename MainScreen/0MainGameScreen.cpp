@@ -52,11 +52,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         if (ProcessMessage() != 0) break;
         ClearDrawScreen();
 
-        if (start.Get_Start_Flog())
+        if (start.Get_Start_Flog()!=0)
         {
-            //draw.Start_Draw(start);
+            draw.Start_Draw(start);
             //start.SelectGames();
-            start.MoveCursor();
+            //start.MoveCursor();
 
         }
 
