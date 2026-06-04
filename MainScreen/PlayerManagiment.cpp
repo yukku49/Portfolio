@@ -56,6 +56,12 @@ PizzaType Player_Managiment::TryMakePizza()
 	//ジェノベーゼ
 	if(it.Pizzadough_Counter==1&&it.Tmato_Counter==2&&
 		it.Basil_Counter==3&&it.Cheese_Counter==0&&it.Gorgonzola_Counter==0)
+	{
+		it.Tmato_Counter = 0;
+		it.Basil_Counter = 0;
+		it.Pizzadough_Counter = 0;
+		return PizzaType::Marinara;
+	}
 	return PizzaType::None;
 }
 

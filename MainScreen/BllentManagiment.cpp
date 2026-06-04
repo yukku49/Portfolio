@@ -30,7 +30,7 @@ void Bllent_Managiment::Load()
 		m_bullets[i].y = 0.0f;
 		m_bullets[i].vx = 0.0f;
 		m_bullets[i].vy = 0.0f;
-		m_bullets[i].using_handle = -1;
+		m_bullets[i].using_handle =-1;
 		m_bullets[i].timer = 0;
 		m_bullets[i].isActive = false;
 	}
@@ -106,32 +106,10 @@ void Bllent_Managiment::Shot(float x, float y, Player_Managiment& player)
 	case PizzaType::Margherita:      now_bllet_Handle = bllet_Handle[MARGHERITA];      break;
 	case PizzaType::QuattroFormaggi: now_bllet_Handle = bllet_Handle[QUATTROFORMAGGI]; break;
 	case PizzaType::Marinara:        now_bllet_Handle = bllet_Handle[MARINARA];        break;
+	case PizzaType::Genovese:        now_bllet_Handle = bllet_Handle[GENOVESE];        break;
 	default:                         now_bllet_Handle = bllet_Handle[SEAGE];           break;
-	}
+	};
 
-	if (tomato > 0 && Cheese > 0 && basil > 0 && dough > 0) {
-		now_bllet_Handle = bllet_Handle[MARGHERITA];
-	}
-	// Quattro formaggi (JP: クアトロフォルマッジ)
-	else if ( tomato> 0 && Cheese> 0 && dough > 0)
-	{
-		now_bllet_Handle = bllet_Handle[QUATTROFORMAGGI];
-	}
-	// Genovese (JP: ジェノベーゼ)
-	else if (basil > 0 && dough > 0 && Cheese > 0 && tomato > 0)
-	{
-		now_bllet_Handle = bllet_Handle[GENOVESE];
-	}
-	// Marinara (JP: マリナーラ)
-	else if (tomato > 0 && dough > 0 && basil > 0)
-	{
-		now_bllet_Handle = bllet_Handle[MARINARA];
-	}
-	// Default to sage shot (JP: デフォルトはセージ弾)
-	else
-	{
-		now_bllet_Handle = bllet_Handle[SEAGE];
-	}
 	// Find inactive bullet slot (JP: 未使用の弾スロットを探す)
 	for (int i=0;i<Max_Bullets; i++)
 	{
