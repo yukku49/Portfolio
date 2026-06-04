@@ -94,6 +94,7 @@ void Bllent_Managiment::Update (BackScreen& stage, Player_Managiment& player, En
 void Bllent_Managiment::Shot(float x, float y, Player_Managiment& player)
 {
 
+
 	auto item = player.Get_Player_Itembring();
 	int tomato = item.Tmato_Counter;
 	int Cheese = item.Cheese_Counter;
@@ -101,12 +102,21 @@ void Bllent_Managiment::Shot(float x, float y, Player_Managiment& player)
 	int dough = item.Pizzadough_Counter;
 
 	PizzaType pizza = player.TryMakePizza();
+	const auto& timer = player.GetPizzaTimer();
 	switch (pizza)
 	{
-	case PizzaType::Margherita:      now_bllet_Handle = bllet_Handle[MARGHERITA];      break;
-	case PizzaType::QuattroFormaggi: now_bllet_Handle = bllet_Handle[QUATTROFORMAGGI]; break;
-	case PizzaType::Marinara:        now_bllet_Handle = bllet_Handle[MARINARA];        break;
-	case PizzaType::Genovese:        now_bllet_Handle = bllet_Handle[GENOVESE];        break;
+	case PizzaType::Margherita:     
+		if (timer.Marigherita <= 0.0f)return;
+		now_bllet_Handle = bllet_Handle[MARGHERITA];      break;
+	case PizzaType::QuattroFormaggi:
+		if (timer.QuattroFormaggi <= 0.0f)return;
+		now_bllet_Handle = bllet_Handle[QUATTROFORMAGGI]; break;
+	case PizzaType::Marinara: 
+		if (timer.Marinara <= 0.0f)return;
+		now_bllet_Handle = bllet_Handle[MARINARA];        break;
+	case PizzaType::Genovese:       
+		if (timer.Genovese <= 0.0f)return;
+		now_bllet_Handle = bllet_Handle[GENOVESE];        break;
 	default:                         now_bllet_Handle = bllet_Handle[SEAGE];           break;
 	};
 

@@ -66,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         */
         // ここで他の描画（Map_Draw, Player_Draw など）を呼んでいれば、
         // Start_Draw が上書きされます。必要なら順番を変える。
-
+        
         
 
         // 更新
@@ -114,6 +114,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         {
             player.Debug_SetItems(1, 3, 0, 0, 0);
 		}
+        
        
         // screen flip
         ScreenFlip();

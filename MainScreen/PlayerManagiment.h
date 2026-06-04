@@ -31,6 +31,14 @@ struct Item_count
 	int Basil_Counter;
 };
 
+struct PizzaTimer
+{
+	float Marigherita = 0.0f;
+	float QuattroFormaggi = 0.0f;
+	float Genovese = 0.0f;
+	float Marinara = 0.0f;
+};
+
 class Item_Managiment;
 class Bllent_Managiment;
 class BackScreen; // Forward declaration (JP: 前方宣言)
@@ -70,6 +78,9 @@ private:
 	// 時間管理
 	unsigned int m_lastTime = 0;
 
+	// ピザ発射のクールダウン管理
+	PizzaTimer m_pizzaTimers;
+
 public:
 	void Initialisation();
 	void Update(const BackScreen& stage, Bllent_Managiment& bllent);
@@ -97,7 +108,14 @@ public:
 
 	// 描画用サイズ（JP: Getter for display size)
 	int Get_PlayerDisplaySize() const { return m_displaySize; }
-
+	// ピザを作れるか試す（JP: Check if a pizza can be made and return its type）
 	PizzaType TryMakePizza();
+
+	
+	const PizzaTimer& GetPizzaTimer()const { return m_pizzaTimers; };
+
+	// デバッグ用：アイテムカウンタを直接設定（JP: Debug function to set item counters directly）
 	void Debug_SetItems(int dough, int tomato, int cheese, int gorgonzola, int basil);
+
+
 };
