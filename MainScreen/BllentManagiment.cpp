@@ -100,6 +100,15 @@ void Bllent_Managiment::Shot(float x, float y, Player_Managiment& player)
 	int basil = item.Basil_Counter;
 	int dough = item.Pizzadough_Counter;
 
+	PizzaType pizza = player.TryMakePizza();
+	switch (pizza)
+	{
+	case PizzaType::Margherita:      now_bllet_Handle = bllet_Handle[MARGHERITA];      break;
+	case PizzaType::QuattroFormaggi: now_bllet_Handle = bllet_Handle[QUATTROFORMAGGI]; break;
+	case PizzaType::Marinara:        now_bllet_Handle = bllet_Handle[MARINARA];        break;
+	default:                         now_bllet_Handle = bllet_Handle[SEAGE];           break;
+	}
+
 	if (tomato > 0 && Cheese > 0 && basil > 0 && dough > 0) {
 		now_bllet_Handle = bllet_Handle[MARGHERITA];
 	}

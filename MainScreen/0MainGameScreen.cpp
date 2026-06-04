@@ -51,6 +51,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
         if (ProcessMessage() != 0) break;
         ClearDrawScreen();
+        /*
         if (start.Get_Start_Flog() == true)
         {
 
@@ -61,6 +62,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
             continue;
 
         }
+        */
         // ここで他の描画（Map_Draw, Player_Draw など）を呼んでいれば、
         // Start_Draw が上書きされます。必要なら順番を変える。
 

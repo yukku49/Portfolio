@@ -2,6 +2,16 @@
 // Avoid including DrawManagiment.h here (JP: ここではDrawManagiment.hをインクルードしない)
 #include <array>
 
+enum class PizzaType
+{
+	None,
+	Margherita,
+	QuattroFormaggi,
+	Marinara,
+	Genovese,
+	Sage
+};
+
 enum Player_EyeContact
 {
 	PlayerEye_Up = 0,
@@ -79,11 +89,13 @@ public:
 	Item_count Get_Player_Itembring() const { return Player_Itembring; };
 
 	// カウンタを増やす（JP: 所持アイテムのカウンタを増やす）
-	void Player_BringItem(Item_Managiment& item);
+	void Player_BringItem(Item_number picked);
 
 	// 向きの取得（JP: Getter for current facing direction）
 	int GetDir() const { return m_dir; };
 
 	// 描画用サイズ（JP: Getter for display size)
 	int Get_PlayerDisplaySize() const { return m_displaySize; }
+
+	PizzaType TryMakePizza();
 };

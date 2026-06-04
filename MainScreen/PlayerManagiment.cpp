@@ -9,9 +9,9 @@
 
 static constexpr int TILE_SIZE = 32;
 
-void Player_Managiment::Player_BringItem(Item_Managiment& item)
+void Player_Managiment::Player_BringItem(Item_number picked)
 {
-	switch (item.Get_Item_number())
+	switch (picked)
 	{
 	case (TOMATO): Player_Itembring.Tmato_Counter++; break;
 	case (BASIL): Player_Itembring.Basil_Counter++; break;
@@ -19,6 +19,41 @@ void Player_Managiment::Player_BringItem(Item_Managiment& item)
 	case (GORGONZOLA): Player_Itembring.Gorgonzola_Counter++; break;
 	case (PIZZADOUGH): Player_Itembring.Pizzadough_Counter++; break;
 	}
+}
+
+PizzaType Player_Managiment::TryMakePizza()
+{
+	auto& it = Player_Itembring;
+
+	// マルゲリータ（最優先）
+	if (it.Tmato_Counter > 0 && it.Cheese_Counter > 0 &&
+		it.Basil_Counter > 0 && it.Pizzadough_Counter > 0)
+	{
+		it.Tmato_Counter--;
+		it.Cheese_Counter--;
+		it.Basil_Counter--;
+		it.Pizzadough_Counter--;
+		return PizzaType::Margherita;
+	}
+	// クアトロフォルマッジ
+	if (it.Tmato_Counter > 0 && it.Cheese_Counter > 0 &&
+		it.Pizzadough_Counter > 0)
+	{
+		it.Tmato_Counter--;
+		it.Cheese_Counter--;
+		it.Pizzadough_Counter--;
+		return PizzaType::QuattroFormaggi;
+	}
+	// マリナーラ
+	if (it.Tmato_Counter > 0 && it.Basil_Counter > 0 &&
+		it.Pizzadough_Counter > 0)
+	{
+		it.Tmato_Counter--;
+		it.Basil_Counter--;
+		it.Pizzadough_Counter--;
+		return PizzaType::Marinara;
+	}
+	return PizzaType::None;
 }
 
 void Player_Managiment::Initialisation()
