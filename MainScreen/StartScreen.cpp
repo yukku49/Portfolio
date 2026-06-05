@@ -10,7 +10,7 @@ const char* string_select[] =
 
 void StartScreen::SelectGames()
 {
-	while (string_select != 0)
+	while (string_select[selectNumber] != nullptr)
 	{
 		++selectNumber;
 	}
@@ -35,12 +35,19 @@ void StartScreen::MoveCursor()
 	//カーソルを動かす
 	if(cursorUp==1)
 	{
-		cursorY -= 1;
+		cursorY -= 32;
 
 	}
 	if (cursorDown == 1)
 	{
-		cursorY += 1;
+		cursorY += 32;
+	}
+	//EnterKeyが押されたらモードに応じた処理
+	if (cursorEnter == 1)
+	{
+		if (cursorY == 0)Play_the_game();
+		else if (cursorY == 1)Option();
+		else if (cursorY == 2)Exit();
 	}
 	//カーソルの位置を制限する
 	if (cursorY < 0)
@@ -51,7 +58,7 @@ void StartScreen::MoveCursor()
 	{
 		cursorY = selectNumber;
 	}
-	DrawBox(cursorX,cursorY,(cursorX+1)*32,(cursorY+1) * 32, GetColor(255, 255, 255), true);
+	DrawBox(cursorX+32,cursorY+32,(cursorX+1)+32,(cursorY+1) + 32, GetColor(255, 255, 255), true);
 }
 
 void StartScreen::Play_the_game()

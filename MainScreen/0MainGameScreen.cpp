@@ -34,6 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     StartScreen start;
 
     // Initialize game objects (JP: ゲームオブジェクトの初期化)
+	start.SelectGames();
     player.Initialisation();
     item.ItemManagiment();
     // Enemy_Initialisation expects pixel coordinates now -> convert from tile coords
@@ -52,7 +53,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
         if (ProcessMessage() != 0) break;
         ClearDrawScreen();
-        /*
+        
         if (start.Get_Start_Flog() == true)
         {
 
@@ -60,10 +61,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
             //start.SelectGames();
             start.MoveCursor();
             draw.Start_Draw(start); // ★ これが実行されているか確認
+            ScreenFlip();
             continue;
 
         }
-        */
+        
         // ここで他の描画（Map_Draw, Player_Draw など）を呼んでいれば、
         // Start_Draw が上書きされます。必要なら順番を変える。
         
