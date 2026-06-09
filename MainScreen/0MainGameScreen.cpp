@@ -1,6 +1,5 @@
 #include <iostream>
 #include"DxLib.h"
-#include"sqlite_DB/sqlite-amalgamation-3530100/sqlite3.h"
 #include"BackScreenManagiment.h"
 #include"BllentManagiment.h"
 #include"DrawManagiment.h"

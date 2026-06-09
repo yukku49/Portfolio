@@ -150,7 +150,6 @@
     <ClInclude Include="ItemManagiment.h" />
     <ClInclude Include="ItemTypes.h" />
     <ClInclude Include="PlayerManagiment.h" />
-    <ClInclude Include="sqlite_DB\sqlite-amalgamation-3530100\sqlite3.h" />
     <ClInclude Include="StartScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -23,7 +23,7 @@ void DrawManager::Player_Draw(const BackScreen& stage, const Player_Managiment& 
 
 	// 描画座標：ピクセル座標を直接使用
 	int x1 = static_cast<int>(player.GetXf()) + (TILE_SIZE - CHARA_WIDTH) / 2;
-	int y1 = static_cast<int>(player.GetYf()) + (TILE_SIZE - drawH);
+	int y1 = static_cast<int>(player.GetYf()) + (TILE_SIZE - drawH)+TILE_SIZE;
 
 	int x2 = x1 + CHARA_WIDTH;
 	int y2 = y1 + drawH;
@@ -43,8 +43,8 @@ void DrawManager::Map_Draw(const BackScreen& object)const
 		{
 			if (object.GetMapvalue(x, y) == 0)
 			{
-				DrawExtendGraph(x * TILE_SIZE, y * TILE_SIZE,
-                    x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE,
+				DrawExtendGraph(x * TILE_SIZE, y * TILE_SIZE+TILE_SIZE,
+                    x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE+TILE_SIZE,
                     object.Get_ObjectHanadle(), true);
 			}
 		}
@@ -58,7 +58,7 @@ void DrawManager::Bullets_Draw(const Bllent_Managiment& bullets) const
 		const auto& b = bullets.Get_Bullethandle(i);
 		if (b.isActive&&b.using_handle>=0)
 		{
-			DrawExtendGraph(static_cast<int>(b.x), static_cast<int>(b.y),static_cast<int>(b.x)+32,static_cast<int>(b.y)+32, b.using_handle, true);
+			DrawExtendGraph(static_cast<int>(b.x), static_cast<int>(b.y)+TILE_SIZE,static_cast<int>(b.x)+32,static_cast<int>(b.y)+32+TILE_SIZE, b.using_handle, true);
 		}
 	}
 }
@@ -124,8 +124,23 @@ void DrawManager::HUD_Draw(const Player_Managiment& player, const Enemy_Managime
 	int fillw = static_cast<int>(BAR_W * ratio);
 	DrawBox(P_BAR_X, BAR_Y, P_BAR_X + fillw, BAR_Y + BAR_H, GetColor(255, 180, 0), TRUE);//オレンジ
 
-	DrawFormatString(P_BAR_X, BAR_W + 6, BAR_Y, GetColor(255, 255, 255), "P1");
+	DrawFormatString(P_BAR_X * BAR_W + 6, BAR_Y, GetColor(255, 255, 255), "P1");
 
+	//敵の満腹ゲージ
+	const int E_BAR_X = 1280 - BAR_W - 10;
+	DrawBox(E_BAR_X, BAR_Y, E_BAR_X + BAR_W, BAR_Y + BAR_H, GetColor(80, 80, 80), TRUE);
+
+	//ToDo
+	float enemyRatio = 0.3f;
+	int eFillW = static_cast<int>(BAR_W * enemyRatio);
+	DrawBox(E_BAR_X, BAR_Y, E_BAR_X + eFillW, BAR_Y + BAR_H, GetColor(220, 60, 60), TRUE);
+
+	DrawFormatString(E_BAR_X - 30, BAR_Y, GetColor(255, 255, 255), "CPU");
+
+	//所持アイテム数（中央）
+	auto items = player.Get_Player_Itembring();
+	DrawFormatString(480, BAR_Y, GetColor(200, 200, 200), "生地:%d トマト:%d ゴルゴン:%d バジル:%d", items.Pizzadough_Counter, items.Tmato_Counter,
+		items.Cheese_Counter, items.Basil_Counter);
 };
 
 void DrawManager::Item_Draw(const Item_Managiment& item, const BackScreen& stage) const

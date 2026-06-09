@@ -74,8 +74,5 @@
     <ClInclude Include="ItemTypes.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sqlite_DB\sqlite-amalgamation-3530100\sqlite3.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
