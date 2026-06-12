@@ -36,7 +36,7 @@ PizzaType Player_Managiment::TryMakePizza()
 	return PizzaType::None;
 }
 
-/*
+
 void Player_Managiment::Debug_SetItems(int dough, int tomato, int cheese, int gorgonzola, int basil)
 {
 	Player_Itembring.Pizzadough_Counter = dough;
@@ -46,7 +46,7 @@ void Player_Managiment::Debug_SetItems(int dough, int tomato, int cheese, int go
 	Player_Itembring.Basil_Counter = basil;
 
 }
-*/
+
 
 void Player_Managiment::Initialisation()
 {

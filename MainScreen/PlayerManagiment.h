@@ -101,7 +101,7 @@ public:
 	const PizzaTimer& GetPizzaTimer()const { return m_pizzaTimers; };
 
 	// デバッグ用：アイテムカウンタを直接設定（JP: Debug function to set item counters directly）
-	//void Debug_SetItems(int dough, int tomato, int cheese, int gorgonzola, int basil);
+	void Debug_SetItems(int dough, int tomato, int cheese, int gorgonzola, int basil);
 
 
 };

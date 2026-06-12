@@ -1,4 +1,6 @@
 #pragma once
+#include<vector>
+#include<utility>
 // Enum for enemy facing sprite indices (JP: 敵の向きスプライトのインデックス)
 enum enemy_Eye
 {
@@ -30,6 +32,15 @@ private:
 	// プレイヤーと同じ描画サイズ（px）
 	const int m_displaySize = 28;
 
+	//BFS関連
+	std::vector<std::pair<int, int>> m_path;
+	int m_pathIndex = 0;
+	int m_pathTimer = 0;
+	static const int PATH_INTERVAL = 60;
+
+	void CalcPath(const BackScreen& stage,
+		int startTx, int startTy,
+		int goalTx, int goalTy);
 public:
 	// Spawn and initialize enemy (startX/startY are pixel coordinates)
 	void Enemy_Initialisation(float startX, float startY);
