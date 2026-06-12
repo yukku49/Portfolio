@@ -23,7 +23,7 @@ void DrawManager::Player_Draw(const BackScreen& stage, const Player_Managiment& 
 
 	// 描画座標：ピクセル座標を直接使用
 	int x1 = static_cast<int>(player.GetXf()) + (TILE_SIZE - CHARA_WIDTH) / 2;
-	int y1 = static_cast<int>(player.GetYf()) + (TILE_SIZE - drawH);
+	int y1 = static_cast<int>(player.GetYf()) + (TILE_SIZE - drawH)+TILE_SIZE;
 
 	int x2 = x1 + CHARA_WIDTH;
 	int y2 = y1 + drawH;
@@ -43,8 +43,8 @@ void DrawManager::Map_Draw(const BackScreen& object)const
 		{
 			if (object.GetMapvalue(x, y) == 0)
 			{
-				DrawExtendGraph(x * TILE_SIZE, y * TILE_SIZE,
-                    x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE,
+				DrawExtendGraph(x * TILE_SIZE, y * TILE_SIZE+TILE_SIZE,
+                    x * TILE_SIZE + TILE_SIZE, y * TILE_SIZE + TILE_SIZE+TILE_SIZE,
                     object.Get_ObjectHanadle(), true);
 			}
 		}
