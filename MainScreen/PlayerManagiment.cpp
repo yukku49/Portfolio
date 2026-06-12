@@ -36,7 +36,7 @@ PizzaType Player_Managiment::TryMakePizza()
 	return PizzaType::None;
 }
 
-
+/*
 void Player_Managiment::Debug_SetItems(int dough, int tomato, int cheese, int gorgonzola, int basil)
 {
 	Player_Itembring.Pizzadough_Counter = dough;
@@ -46,13 +46,13 @@ void Player_Managiment::Debug_SetItems(int dough, int tomato, int cheese, int go
 	Player_Itembring.Basil_Counter = basil;
 
 }
-
+*/
 
 void Player_Managiment::Initialisation()
 {
 	// 初期位置をタイル->ピクセルに変換して設定
 	Player_MovePointX = Player_StanderdpointX * TILE_SIZE;
-	Player_MovePointY = Player_StanderdpointY * TILE_SIZE+TILE_SIZE;
+	Player_MovePointY = Player_StanderdpointY * TILE_SIZE;
 
 	// 画像ロード
 	PlayerImage_Handle[0] = LoadGraph("../Pizza_Image/player_up.png");
@@ -122,14 +122,13 @@ void Player_Managiment::Update(const BackScreen& stage, Bllent_Managiment& bllen
 	const int HIT_SIZE = 16; // 描画(28px)より小さく
 	int w = HIT_SIZE;
 	int h = HIT_SIZE;
-	float hitX = newX + (m_displaySize - HIT_SIZE) / 2.0f;
-	float hitY = newY;
+	float cx = Player_MovePointX + (m_displaySize - HIT_SIZE) / 2.0f;
+	float cy = Player_MovePointY + (m_displaySize - HIT_SIZE) / 2.0f;
 	bool collision = false;
-	if (collidesAt(hitX, hitY)) collision = true;
-	if (collidesAt(hitX + w - 1, hitY)) collision = true;
-	if (collidesAt(hitX, hitY + h - 1)) collision = true;
-	if (collidesAt(hitX + w - 1, hitY + h - 1)) collision = true;
-
+	if (collidesAt(newX, newY)) collision = true;
+	if (collidesAt(newX + w - 1, newY)) collision = true;
+	if (collidesAt(newX, newY + h - 1)) collision = true;
+	if (collidesAt(newX + w - 1, newY + h - 1)) collision = true;
 	
 	
 
