@@ -50,7 +50,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     player.Initialisation();
     item.ItemManagiment();
     // Enemy_Initialisation expects pixel coordinates now -> convert from tile coords
-    enemy.Enemy_Initialisation(38 * TILE_SIZE, 21 * TILE_SIZE);
+    enemy.Enemy_Initialisation(38 * TILE_SIZE, 21 * TILE_SIZE+TILE_SIZE);
     bllet.Load();
     stage.Initialize();
     start.startInitialize();
@@ -122,6 +122,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         draw.Bullets_Draw(bllet);
         draw.Item_Draw(item, stage);
     
+        // BFSが通っているタイルを緑で表示
+        for (int i = 0; i < (int)enemy.GetPathSize(); i++)
+        {
+            auto [tx, ty] = enemy.GetPath(i);
+            DrawBox(tx * 32, ty * 32 + 32,
+                tx * 32 + 32, ty * 32 + 64,
+                GetColor(0, 255, 0), false);
+        }
+        
+
         //pizzaデバック用
         
         if (CheckHitKey(KEY_INPUT_1))

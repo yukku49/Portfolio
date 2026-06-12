@@ -69,4 +69,7 @@ public:
 	void OnHit() { a.isActive = false; }
 	// 有効判定（Bllent から参照されるため）
 	bool Get_EnemyActive() const { return a.isActive; }
+	
+	int GetPathSize() const { return (int)m_path.size(); }
+	std::pair<int, int> GetPath(int i) const { return m_path[i]; }
 };
