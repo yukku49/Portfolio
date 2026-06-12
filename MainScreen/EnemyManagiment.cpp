@@ -2,6 +2,9 @@
 #include "EnemyManagiment.h"
 #include "BackScreenManagiment.h" // For CheckCollision
 #include<cmath>
+#include<queue>
+#include<array>
+#include<algorithm>
 
 // 画面サイズやスプライトサイズが必要なら共通化してください
 static const int SCREEN_W = 1280;
@@ -59,37 +62,130 @@ void Enemy_Managiment::Enemy_Update(const BackScreen& stage, float playerX, floa
 {
 	if (!a.isActive) return;
 
-	float dx = playerX - a.enemy_X;
-	float dy = playerY - a.enemy_Y;
-	float len = std::sqrt(dx * dx + dy * dy);
-	if (len < 1.0f) return;
+    int eTx = static_cast<int>(a.enemy_X) / 32;
+    int eTy = static_cast<int>(a.enemy_Y) / 32;
+    int pTx = static_cast<int>(playerX) / 32;
+    int pTy = static_cast<int>(playerY) / 32;
 
-	const float speed = 1.0f;
-	float wishVx = (dx / len) * speed;
-	float wishVy = (dy / len) * speed;
+    m_pathTimer++;
+    if (m_pathTimer >= PATH_INTERVAL || m_path.empty())
+    {
+        m_pathTimer = 0;
+        CalcPath(stage, eTx, eTy, pTx, pTy);
+        m_pathIndex = 0; // ← インデックスリセット忘れずに
+    }
 
-	const int w = m_displaySize;
+    if (m_path.empty() || m_pathIndex >= (int)m_path.size()) return;
 
-	// X軸だけ試す
-	float newX = a.enemy_X + wishVx;
-	bool hitX =
-		stage.CheckCollision(newX, a.enemy_Y) ||
-		stage.CheckCollision(newX + w - 1, a.enemy_Y) ||
-		stage.CheckCollision(newX, a.enemy_Y + w - 1) ||
-		stage.CheckCollision(newX + w - 1, a.enemy_Y + w - 1);
+    // 次のタイル
+    auto [nextTx, nextTy] = m_path[m_pathIndex];
+    float nextPx = nextTx * 32.0f;
+    float nextPy = nextTy * 32.0f;
 
-	// Y軸だけ試す
-	float newY = a.enemy_Y + wishVy;
-	bool hitY =
-		stage.CheckCollision(a.enemy_X, newY) ||
-		stage.CheckCollision(a.enemy_X + w - 1, newY) ||
-		stage.CheckCollision(a.enemy_X, newY + w - 1) ||
-		stage.CheckCollision(a.enemy_X + w - 1, newY + w - 1);
+    float dx = nextPx - a.enemy_X;
+    float dy = nextPy - a.enemy_Y;
+    float dist = std::sqrt(dx * dx + dy * dy);
 
-	// ぶつからない軸だけ移動を適用
-	if (!hitX) a.enemy_X = newX;
-	if (!hitY) a.enemy_Y = newY;
+    // 到達したら次のタイルへ
+    if (dist < 2.0f)
+    {
+        a.enemy_X = nextPx;
+        a.enemy_Y = nextPy;
+        m_pathIndex++;
+        return;
+    }
+
+    const float speed = 1.5f;
+    float moveX = (dx / dist) * speed;
+    float moveY = (dy / dist) * speed;
+
+    const int w = m_displaySize;
+
+    // ★ X軸衝突判定
+    float newX = a.enemy_X + moveX;
+    bool hitX =
+        stage.CheckCollision(newX, a.enemy_Y) ||
+        stage.CheckCollision(newX + w - 1, a.enemy_Y) ||
+        stage.CheckCollision(newX, a.enemy_Y + w - 1) ||
+        stage.CheckCollision(newX + w - 1, a.enemy_Y + w - 1);
+
+    // ★ Y軸衝突判定
+    float newY = a.enemy_Y + moveY;
+    bool hitY =
+        stage.CheckCollision(a.enemy_X, newY) ||
+        stage.CheckCollision(a.enemy_X + w - 1, newY) ||
+        stage.CheckCollision(a.enemy_X, newY + w - 1) ||
+        stage.CheckCollision(a.enemy_X + w - 1, newY + w - 1);
+
+    if (!hitX) a.enemy_X = newX;
+    if (!hitY) a.enemy_Y = newY;
+
+    // ★ 衝突が続くなら再計算を強制
+    if (hitX && hitY)
+    {
+        m_pathTimer = PATH_INTERVAL;
+    }
 };
 
+void Enemy_Managiment::CalcPath(const BackScreen& stage,
+    int startTx, int startTy, int goalTx, int goalTy)
+{
+    m_path.clear();
+    m_pathIndex = 0;
+
+    const int W = stage.MAP_Get_SizeX();
+    const int H = stage.MAP_Get_SizeY();
+
+    // 範囲外チェック
+    if (goalTx < 0 || goalTx >= W || goalTy < 0 || goalTy >= H) return;
+    if (stage.GetMapvalue(goalTx, goalTy) == 0) return;
+
+    // 親座標を記録する2次元配列
+    std::vector<std::vector<std::pair<int, int>>> parent(
+        H, std::vector<std::pair<int, int>>(W, { -1, -1 }));
+
+    std::queue<std::pair<int, int>> q;
+    q.push({ startTx, startTy });
+    parent[startTy][startTx] = { startTx, startTy };
+
+    const std::array<std::pair<int, int>, 4> dirs = { {{0,-1},{0,1},{-1,0},{1,0}} };
+
+    bool found = false;
+    while (!q.empty() && !found)
+    {
+        auto [cx, cy] = q.front(); q.pop();
+
+        for (auto [dx, dy] : dirs)
+        {
+            int nx = cx + dx;
+            int ny = cy + dy;
+
+            if (nx < 0 || nx >= W || ny < 0 || ny >= H) continue;
+            if (stage.GetMapvalue(nx, ny) == 0) continue;
+            if (parent[ny][nx].first != -1) continue;
+
+            parent[ny][nx] = { cx, cy };
+            q.push({ nx, ny });
+
+            if (nx == goalTx && ny == goalTy)
+            {
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if (!found) return;
+
+    // ゴールから逆順にたどる
+    std::pair<int, int> cur = { goalTx, goalTy };
+    while (cur != std::make_pair(startTx, startTy))
+    {
+        m_path.push_back(cur);
+        cur = parent[cur.second][cur.first];
+    }
+
+    std::reverse(m_path.begin(), m_path.end());
+}
 
 

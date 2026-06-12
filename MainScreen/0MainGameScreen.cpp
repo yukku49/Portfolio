@@ -123,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         draw.Item_Draw(item, stage);
     
         //pizzaデバック用
-        /*
+        
         if (CheckHitKey(KEY_INPUT_1))
         {
             player.Debug_SetItems(1, 2, 3, 0,3);
@@ -142,7 +142,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         {
             player.Debug_SetItems(1, 3, 0, 0, 0);
 		}
-        */
+        
        
         // screen flip
         ScreenFlip();
