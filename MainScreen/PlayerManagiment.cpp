@@ -82,6 +82,8 @@ void Player_Managiment::PlayerOnHit()
 {
 	if (mp_invincibleTimer > 0.0f)return;//無敵中は無視
 	mp_invincibleTimer = P_INVINCIBLE_DURATION;
+	m_fullness -= 5;
+	if (m_fullness < 0.0f)m_fullness = 0.0f;
 }
 
 // Loads directional sprites and sets the player's starting pixel position

@@ -113,7 +113,8 @@ void Bllent_Managiment::Update(BackScreen& stage, Player_Managiment& player, Ene
 			if (hit)
 			{
 				m_bullets[i].isActive = false;
-				// ここで player.OnHit() を呼ぶ予定
+				player.PlayerOnHit();
+				player.GetFullness();
 				continue;
 			}
 		}
