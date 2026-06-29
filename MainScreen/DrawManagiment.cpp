@@ -35,9 +35,7 @@ void DrawManager::Player_Draw(const BackScreen& stage, const Player_Managiment& 
     int x2 = x1 + CHARA_WIDTH;
     int y2 = y1 + drawH;
 
-    char buf[64];
-    sprintf_s(buf, "Player drawH=%d w=%d h=%d\n", drawH, w, h);
-    OutputDebugStringA(buf);
+  
 
     if (player.GetPInvincibleTimer() > 0.0f && (player.GetMPblickTimer() / 4)%2 == 1)
     {
